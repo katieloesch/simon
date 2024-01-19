@@ -1,3 +1,31 @@
+/* custom fonts */
+
+
+/* variables */
+:root {
+    /* game dimensions */
+    --panel-size: 18rem;
+    --centre-size: 16rem;
+    
+    /* colour codes */
+    --green: rgb(89, 163, 89);
+    --green-active: rgb(80, 255, 80);
+
+    --red:  rgb(200, 65, 65);
+    --red-active:  rgb(255, 0, 0);
+
+    --yellow: rgb(255, 219, 87);
+    --yellow-active: rgb(255, 255, 0);
+
+    --blue: rgb(2, 2, 206);
+    --blue-active: rgb(0, 187, 255);
+
+    --orange: #e68333;
+    --orange-dark:  #a44a00;
+
+    --font-main: Arial, Helvetica, sans-serif;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -13,17 +41,14 @@ body {
     justify-content: center;
     background-color: black;
     color: white;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-main);
 }
 
 .title {
     margin-top: 2.5rem;
-    margin-bottom: 5rem;
-    
 }
 
 .panels {
-
     position: relative;
     width: 100%;
     height: 100%;
@@ -33,38 +58,74 @@ body {
     align-items: center;
 }
 
-
 .panel {
-    width: 18rem;
-    height: 18rem;
+    width: var(--panel-size);
+    height: var(--panel-size);
     display: inline-block;
+    border: 10px solid black;
 }
+    .panel:hover {
+        cursor: pointer;
+    }
 
 .panel#green { /* top left */
-    background-color: rgb(89, 163, 89);
+    background-color: var(--green);
     border-top-left-radius: 100%;
-   
-
 }
+    /* .panel#green:hover {
+        background-color: var(--green-active);
+        border: 10px solid var(--green-active);
+    } */
+    .panel#green.active {
+        background-color: var(--green-active);
+        border: 10px solid var(--green-active);
+    }
+
+
+/* game panels */
 
 .panel#red {  /* top right */
-    background-color: rgb(222, 4, 4);
+    background-color: var(--red);
     border-top-right-radius: 100%;
-   
-
 }
+    /* .panel#red:hover {
+        background-color: var(--red-active);
+        border: 10px solid var(--red-active);
+    } */
+    .panel#red.active {
+        background-color:  var(--red-active);
+        border: 10px solid  var(--red-active);
+    }
 
 .panel#yellow {  /* bottom left */
-    background-color: rgb(255, 255, 0);
+    background-color: var(--yellow);
     border-bottom-left-radius: 100%;
-   
 }
+    /* .panel#yellow:hover {
+        background-color: var(--yellow-active);
+        border: 10px solid var(--yellow-active);
+    } */
+    .panel#yellow.active {
+        background-color: var(--yellow-active);
+        border: 10px solid var(--yellow-active);
+    }
 
 .panel#blue {  /* bottom right */
-    background-color: rgb(0, 0, 216);
+    background-color: var(--blue);
     border-bottom-right-radius: 100%;
    
 }
+    /* .panel#blue:hover {
+        background-color: var(--blue-active);
+        border: 10px solid var(--blue-active);
+    } */
+    .panel#blue.active {
+        background-color: var(--blue-active);
+        border: 10px solid var(--blue-active);
+    }
+
+
+/* game centre buttons */
 
 .centre-btns {
     background-color: black;
@@ -72,7 +133,39 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 16rem;
-    height: 16rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: var(--centre-size);
+    height: var(--centre-size);
     border-radius: 100%;
+    gap: 2rem;
+}
+
+.centre-btns #btn-start {
+    border: 1px solid white;
+    background-color: white;
+    color: black;
+    padding: 0.75rem;
+    border-radius: 10px;
+    font-size: 1.75rem;
+}
+    .centre-btns #btn-start:hover {
+        cursor: pointer;
+        background-color: var(--orange);
+        transition: 0.4s;
+        scale: 1.2;
+        border: 1px solid var(--orange-dark);
+    }
+
+.centre-btns .btns-strict {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.centre-btns #label-strict {
+    font-size: 1.5rem;
 }
