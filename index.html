@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Simon</title>
-        <link rel="icon" type="image/svg+xml" href="./brain_icon.svg" />
+        <link rel="icon" type="image/svg+xml" href="./circle_icon.svg" />
         <link href="css/style.css" rel="stylesheet">
         <link href="css/mediaQueries.css" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,12 +43,20 @@
                 
             </div>
         </div>
-        <div class="counter">
-            <span>count</span>
-            <span>0</span>
-            <button class="btn">reset</button>
+        <div>
+            <div class="table-counter">
+                <span>count: </span>
+                <span id="counter">-</span>
+                <button class="btn" id="btn-reset-counter">reset</button>
+    
+            </div>
+            <div>
+                <input class="toggle" type="checkbox" id="toggle-mute"></input>
+                <span class="label" id="label-mute">mute</span>
+            </div>
 
         </div>
+
 
     </body>
 </html>

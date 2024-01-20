@@ -41,10 +41,14 @@ This game was written in vanilla JavaScript, HTML and CSS.
 ### External web resources:
 
 - font
+  - 'Darker Grotesque' designed by Gabriel Lam
+  - available at:
+    - https://fonts.google.com/specimen/Darker+Grotesque
+    - https://www.fontsquirrel.com/fonts/darker-grotesque
+    - https://en.bestfonts.pro/font/darker-grotesque
 - Animation
 - Audio
-  - all sound effects used are open-source .mp3 sound files from Pixabay
-    - https://pixabay.com/sound-effects/
+  - all sound effects used are open-source .mp3 and .wav sound files from Pixabay and Freesound: - https://pixabay.com/sound-effects/ - https://freesound.org/
   - Howler audio library
     - https://howlerjs.com/
     - https://cdnjs.com/libraries/howler
