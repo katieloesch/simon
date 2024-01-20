@@ -2,7 +2,7 @@ console.log('Hello World!');
 
 //defining variables for the game
 let sequence;
-let attempt;
+let attempt=[];
 let flashes;
 let turn;
 let match;
@@ -16,25 +16,28 @@ let on = true;
 // selecting the 4 different panels and saving each one to a variable
 const green = document.getElementById('green');
 const red = document.getElementById('red');
-const yellow = document.getElementById('yellow');
 const blue = document.getElementById('blue');
+const yellow = document.getElementById('yellow');
  
 // selecting buttons from centre panel and saving each one to a variable
 const btnStart = document.getElementById('btn-start');
 const btnStrict = document.getElementById('toggle-strict');
 const labelStrict = document.getElementById('label-strict');
 const counter = document.getElementById('counter');
-const btnResetCounter = document.getElementById('btn-reset-counter');
 const btnMute = document.getElementById('toggle-mute');
 const labelMute = document.getElementById('label-mute');
 
 
 //attaching event listeners to panels and buttons
-const panels = [green, red, yellow, blue];
+const panels = [green, red, blue, yellow];
+
 panels.forEach((panel) => {
     panel.addEventListener('click', () => {
         if (on) {
             flash(panel)
+            attempt.push(panels.indexOf(panel)+1)
+            console.log(attempt)
+            checkAttempt();
         };
     })
 })
@@ -67,11 +70,6 @@ btnStart.addEventListener('click', (e) => {
     }
 });
 
-btnResetCounter.addEventListener('click', () => {
-    counter.innerHTML = "-";
-    clearInterval(intervalId);
-})
-
 //Sound effects
     //.wav sound files are located in the audio folder
     // source: https://freesound.org/people/Jaz_the_MAN_2/packs/17749/
@@ -81,21 +79,33 @@ const sounds = {
     red: new Audio("./../audio/mi.wav"),
     blue: new Audio("./../audio/sol.wav"),
     yellow: new Audio ("./../audio/do_octave.wav"),
-    error: new Audio ("https://s3.amazonaws.com/adam-recvlohe-sounds/error.wav")
+    fail: new Audio ("./../audio/fail.mp3"),
+    win: new Audio ("./../audio/win.mp3")
 }
     
 // function that flashes a panel when clicked
 function flash(panel) {
+    console.log('flash runnings')
     console.log(panel.id)
     panel.classList.add('active');
     if (!mute) {
         sounds[panel.id].play();
     }
     
-    
     setTimeout(() => {
         panel.classList.remove('active');
     }, 500);
+
+    console.log('flash done')
+}
+
+function flashAll() {
+    panels.forEach((panel) => {
+        panel.classList.add('active');
+        setTimeout(() => {
+            panel.classList.remove('active');
+        }, 500);
+    })
 }
 
 // function that returns a random sequence of 20 indexes ranging from 1-4
@@ -109,18 +119,76 @@ function getRandomSequence() {
     return arr;
 }
 
-function gameTurn() {
-    on = false; // player can't click on panels?
+function gameWon() {
+    flashAll();
+    counter.innerHTML = 'WIN!';
+    on = false;
+    win = true;
 
-    if (flashes === turn) { //compTurn is over
+    if (!mute) {
+        sounds['win'].play();
+    }
+}
+
+function arrayEquals(a, b) {
+    return Array.isArray(a) &&
+        Array.isArray(b) &&
+        a.length === b.length &&
+        a.every((val, index) => val === b[index]);
+}
+
+function checkAttempt() {
+    if (!arrayEquals(attempt, sequence.slice(0, attempt.length))) {
+        console.log('FAIL')
+        console.log('expected: ', sequence.slice(0, attempt.length))
+        console.log('given: ', attempt)
+        console.log('bool: ', arrayEquals(attempt, sequence.slice(0, attempt.length)))
+        match = false;
+        counter.innerHTML = "NO!"
+        if (!mute) {
+            sounds['fail'].play();
+        }
+        flashAll();
+        setTimeout(() => {
+            counter.innerHTML = turn;
+            if (strict) {
+                play()
+            } else {
+                compTurn = true;
+                flashes = 0;
+                attempt = [];
+                match = true;
+                intervalId = setInterval(gameTurn, 800)
+            }
+        }, 800)
+    }
+    if (turn === attempt.length && match && !win) {
+        turn++;
+        attempt = [];
+        compTurn = true;
+        flashes = 0;
+        counter.innerHTML = turn;
+        intervalId = setInterval(gameTurn, 800);
+    }
+
+    if (attempt.length === 20 && match) {
+        gameWon();
+    }
+}
+
+function gameTurn() {
+    console.log('game turn running')
+    on = false; // player can't click on panels
+
+    if (flashes == turn) { //compTurn is over
+        console.log('player turn')
         clearInterval(intervalId);
         compTurn = false;
-        // clearColor();
         on = true;
     }
 
     if (compTurn) {
-        // clearColor();
+        console.log("computer's turn")
         setTimeout(() => { // clockwise: 1 -> green | 2 -> red | 3 -> blue | 4 -> yellow
             if (sequence[flashes] === 1) {
                 flash(green);
@@ -131,14 +199,16 @@ function gameTurn() {
             } else {
                 flash(yellow);
             }
-            flash++
+            flashes++
         }, 200);
 
     }
+    console.log('flashes: ', flashes)
 }
 
 //function that runs after start button is clicked
 function play() {
+    console.log('play running')
     win = false;
     sequence = getRandomSequence();
     attempt = [];
